@@ -19,7 +19,8 @@ module Sinatra
       @params = indifferent_params(params)
 
       @request ||= OpenStruct.new
-      @request.route = path
+      @request.route = path # sinatra 1.2.8
+      @request.path_info = path # sinatra 1.3.3
 
       # routes are stored by uppercase method, but I wanted the test interface
       # to accept :get or 'get' as well as 'GET'
