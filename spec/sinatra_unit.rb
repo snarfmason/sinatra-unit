@@ -21,14 +21,26 @@ module Sinatra
       @request ||= OpenStruct.new
       @request.route = path
 
-      # routes are stored like 'GET', I just wanted to make the test interface more flexible
-      routes = self.class.routes[method.to_s.upcase]
-      routes.each do |pattern, keys, conditions, block|
-        process_route(pattern, keys, conditions) do
-          return instance_eval(&block)
+      # routes are stored by uppercase method, but I wanted the test interface
+      # to accept :get or 'get' as well as 'GET'
+      test_request_internal self.class, method.to_s.upcase
+    end
+
+    # expects @request and @params to be set
+    # Don't call this directly, but I don't believe in private methods
+    def test_request_internal(route_holder, method)
+      return nil unless route_holder.respond_to?(:routes)
+
+      if route_holder.routes.has_key? method
+        routes = route_holder.routes[method]
+        routes.each do |pattern, keys, conditions, block|
+          process_route(pattern, keys, conditions) do
+            return instance_eval(&block)
+          end
         end
       end
-      nil
+
+      test_request_internal(route_holder.superclass, method)
     end
 
     %w(get post put delete head).each do |method|
