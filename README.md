@@ -7,14 +7,17 @@ Description
 -----------
 
 The idea is to instantiate your Sintra class and then execute the web request blocks on the instance
-that you have created. It uses the test_request method (and shortcuts like test_get, test_post, etc)
+that you have created. It uses the `test_request` method (and shortcuts like `test_get`, `test_put`, etc)
 to look up the block using the same route matching logic that Sinatra would use when receiving a request
 from Rack.
+
+This is a really early piece of work right now, and isn't even a gem yet. It's just a class I include in
+`spec_helper.rb`.
 
 Usage
 -----
 
-Best thing to do right now is just read web_app_spec.rb for usage examples. But a few examples. But the general idea is:
+Best thing to do right now is just read `web_app_spec.rb` for usage examples, but the general idea is:
 
     app = WebApp.new
     response = app.test_get '/hi'
