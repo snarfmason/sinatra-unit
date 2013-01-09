@@ -27,6 +27,10 @@ module Sinatra
       test_request_internal self.class, method.to_s.upcase
     end
 
+    def variables(name)
+      instance_variable_get("@#{name.to_s}")
+    end
+
     # expects @request and @params to be set
     # Don't call this directly, but I don't believe in private methods
     def test_request_internal(route_holder, method)
