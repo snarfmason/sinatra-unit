@@ -15,17 +15,21 @@ Usage
 -----
 
 Best thing to do right now is just read web_app_spec.rb for usage examples. But a few examples. But the general idea is:
+
     app = WebApp.new
     response = app.test_get '/hi'
     response.should == "hello world"
 
 of course you can do, params:
+
     response = app.test_get '/hi' :name => 'Jon'
 
 you can set the environment or session (if enabled) with a hash, before a request
+
     app.env = { :test => 'hello' }
     app.session = { :test => 'hello' }
     response = app.test_get '/hi'
 
 you can retrieve instance variables set in request blocks
+
     app.variables("object").foo.should == 1
