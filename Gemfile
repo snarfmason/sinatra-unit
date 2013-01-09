@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'sinatra', '1.2.8'
+gem 'sinatra'
 
 group :development do
   gem 'ruby-debug'
