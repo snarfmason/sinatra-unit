@@ -22,13 +22,16 @@ module Sinatra
       @request.route = path # sinatra 1.2.8
       @request.path_info = path # sinatra 1.3.3
 
+      @__protected_ivars = instance_variables + ["@__protected_ivars"]
+
       # routes are stored by uppercase method, but I wanted the test interface
       # to accept :get or 'get' as well as 'GET'
       test_request_internal self.class, method.to_s.upcase
     end
 
     def variables(name)
-      instance_variable_get("@#{name.to_s}")
+      name = "@#{name.to_s}"
+      instance_variable_get(name) unless @__protected_ivars.include?(name)
     end
 
     # expects @request and @params to be set

@@ -63,4 +63,14 @@ describe 'my app' do
     app.variables("object").foo.should == 1
   end
 
+  it "should not be able to retrieve instance variables not set in the block" do
+    response = app.test_get '/showobject'
+    app.variables("template_cache").should be_nil
+  end
+
+  it "should not be able to retrieve the protected instance variables list" do
+    response = app.test_get '/showobject'
+    app.variables("__protected_ivars").should be_nil
+  end
+
 end
