@@ -1,6 +1,10 @@
 require 'ostruct'
 
 module Sinatra
+  class Unit
+    VERSION = '0.1.0'
+  end
+
   class Base
     # session just returns request.session, so there is no paired session=
     # unlike env which is an attr

@@ -4,6 +4,7 @@ require "rubygems"
 require "hoe"
 
 Hoe.plugin :bundler
+Hoe.plugin :minitest
 # Hoe.plugin :rubyforge
 
 Hoe.spec "sinatra-unit" do
