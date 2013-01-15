@@ -23,57 +23,56 @@ class TestWebApp < MiniTest::Unit::TestCase
     assert_equal response, "hello jon"
   end
 
-  # it "should return for /hi with a param" do
-  #   response = app.test_request(:get, '/hi', :qsname => 'jon')
-  #   response.should == "hi jon"
-  # end
+  def test_returns_for_hi_with_param
+    response = @app.test_request(:get, '/hi', :qsname => 'jon')
+    assert_equal response, "hi jon"
+  end
 
-  # it "should work with get wrapped method" do
-  #   response = app.test_get '/'
-  #   response.should == "hello world"
-  # end
+  def test_work_with_get_wrapped_method
+    response = @app.test_get '/'
+    assert_equal response, "hello world"
+  end
 
-  # it "should return nil for wrong route" do
-  #   response = app.test_get '/wrongroute'
-  #   response.should be_nil
-  # end
+  def test_return_nil_for_wrong_route
+    response = @app.test_get '/wrongroute'
+    assert_nil response
+  end
 
-  # it "should work with post data" do
-  #   response = app.test_post '/goodnight', :name => 'jon'
-  #   response.should == 'post goodnight jon'
-  # end
+  def test_works_with_post_data
+    response = @app.test_post '/goodnight', :name => 'jon'
+    assert_equal response, 'post goodnight jon'
+  end
 
-  # it "should work with put" do
-  #   response = app.test_put '/goodnight', :name => 'jon'
-  #   response.should == 'put goodnight jon'
-  # end
+  def test_works_with_pu
+    response = @app.test_put '/goodnight', :name => 'jon'
+    assert_equal response, 'put goodnight jon'
+  end
 
-  # it "should work with env" do
-  #   app.env = { :test => 'hello' }
-  #   response = app.test_post '/showenv'
-  #   response.should == 'env[test] hello'
-  # end
+  def test_works_with_env
+    @app.env = { :test => 'hello' }
+    response = @app.test_post '/showenv'
+    assert_equal response, 'env[test] hello'
+  end
 
-  # it "should work with session" do
-  #   app.session = { :test => 'hello' }
-  #   response = app.test_post '/showsession'
-  #   response.should == 'session[test] hello'
-  # end
+  def test_works_with_session
+    @app.session = { :test => 'hello' }
+    response = @app.test_post '/showsession'
+    assert_equal response, 'session[test] hello'
+  end
 
-  # it "should be able to retrieve an instance variable" do
-  #   response = app.test_get '/showobject'
-  #   response.should == 'foo=1&bar=2&baz=3'
-  #   app.variables("object").foo.should == 1
-  # end
+  def test_instance_variable_retrieval
+    response = @app.test_get '/showobject'
+    assert_equal 'foo=1&bar=2&baz=3', response
+    assert_equal 1, @app.variables("object").foo
+  end
 
-  # it "should not be able to retrieve instance variables not set in the block" do
-  #   response = app.test_get '/showobject'
-  #   app.variables("template_cache").should be_nil
-  # end
+  def test_only_retrieve_instance_variables_set_in_the_block
+    response = @app.test_get '/showobject'
+    assert_nil @app.variables("template_cache")
+  end
 
-  # it "should not be able to retrieve the protected instance variables list" do
-  #   response = app.test_get '/showobject'
-  #   app.variables("__protected_ivars").should be_nil
-  # end
-
+  def test_do_not_retrieve_protected_instance_variables
+    response = @app.test_get '/showobject'
+    assert_nil @app.variables("__protected_ivars")
+  end
 end
