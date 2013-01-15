@@ -18,10 +18,10 @@ class TestWebApp < MiniTest::Unit::TestCase
     assert_equal response, "goodbye"
   end
 
-  # it "should return for /hello/:name" do
-  #   response = app.test_request(:get, '/hello/jon')
-  #   response.should == "hello jon"
-  # end
+  def test_has_hello_name
+    response = @app.test_request(:get, '/hello/jon')
+    assert_equal response, "hello jon"
+  end
 
   # it "should return for /hi with a param" do
   #   response = app.test_request(:get, '/hi', :qsname => 'jon')
