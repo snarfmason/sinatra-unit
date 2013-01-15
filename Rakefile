@@ -3,7 +3,7 @@
 require "rubygems"
 require "hoe"
 
-Hoe.plugin :bundler
+Hoe.plugin :isolate
 Hoe.plugin :minitest
 # Hoe.plugin :rubyforge
 
