@@ -15,11 +15,19 @@ module Sinatra
   end
 
   class Base
-    # session just returns request.session, so there is no paired session=
-    # unlike env which is an attr
+    def setup_test_session
+      @request = OpenStruct.new :session => {} if request.nil?
+    end
+
+    # normal session method just returns request.session
+    def session
+      setup_test_session
+      request.session
+    end
+
+    # also there is no paired session=, unlike env which is an attr
     def session=(session_hash)
-      raise "Sessions not enabled for this app." unless self.class.sessions?
-      @request ||= OpenStruct.new
+      setup_test_session
       @request.session = session_hash
     end
 

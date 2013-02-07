@@ -70,6 +70,12 @@ class TestWebApp < Test::Unit::TestCase
     assert_equal 'session[test] hello', response
   end
 
+  def test_session_set
+    assert_nil @app.session[:test]
+    @app.test_post '/setsession', :test => 'goodbye'
+    assert_equal 'goodbye', @app.session[:test]
+  end
+
   def test_instance_variable_retrieval
     response = @app.test_get '/showobject'
     assert_equal 'foo=1&bar=2&baz=3', response

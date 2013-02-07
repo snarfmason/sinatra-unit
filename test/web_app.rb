@@ -11,6 +11,10 @@ class WebApp < WebParent
     "session[test] #{session[:test]}"
   end
 
+  post '/setsession' do
+    session[:test] = params[:test]
+  end
+
   get '/showobject' do
     @object = OpenStruct.new :foo => 1, :bar => 2, :baz => 3
     "foo=#{@object.foo}&bar=#{@object.bar}&baz=#{@object.baz}"
