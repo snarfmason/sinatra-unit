@@ -4,4 +4,3 @@ Manifest.txt
 README.txt
 Rakefile
 lib/sinatra/unit.rb
-test/test_sinatra/unit.rb
