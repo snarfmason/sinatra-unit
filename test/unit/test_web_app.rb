@@ -33,9 +33,19 @@ class TestWebApp < Test::Unit::TestCase
     assert_equal "hello world", response
   end
 
-  def test_return_nil_for_wrong_route
-    response = @app.test_get '/wrongroute'
-    assert_nil response
+  def test_raises_an_exception_for_unknown_route
+    assert_raise Sinatra::Unit::UnknownRouteError do
+      @app.test_get '/wrongroute'
+    end
+
+    begin
+      @app.test_get '/wrongroute', :wrong_param => 'foobar'
+    rescue => e
+      assert_equal 'GET', e.method
+      assert_equal '/wrongroute', e.path
+      assert_equal 'foobar', e.params[:wrong_param]
+      assert_match %r{GET.*/wrongroute}, e.message
+    end
   end
 
   def test_works_with_post_data

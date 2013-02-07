@@ -3,6 +3,15 @@ require 'ostruct'
 module Sinatra
   class Unit
     VERSION = '0.1.0'
+
+    class UnknownRouteError < StandardError
+      attr_accessor :method, :path, :params
+      def initialize(method, path, params)
+        self.method, self.path, self.params = method, path, params
+        message = "Could not resovle route #{method} #{path} with params #{params.inspect}"
+        super message
+      end
+    end
   end
 
   class Base
@@ -37,7 +46,7 @@ module Sinatra
     # expects @request and @params to be set
     # Don't call this directly, but I don't believe in private methods
     def test_request_internal(route_holder, method)
-      return nil unless route_holder.respond_to?(:routes)
+      raise Sinatra::Unit::UnknownRouteError.new(method,@request.path_info,@params) unless route_holder.respond_to?(:routes)
 
       if route_holder.routes.has_key? method
         routes = route_holder.routes[method]
