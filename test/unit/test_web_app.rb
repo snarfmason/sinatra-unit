@@ -1,9 +1,9 @@
 require 'web_app'
 require 'sinatra/unit'
 
-require 'minitest/autorun'
+require 'test/unit'
 
-class TestWebApp < MiniTest::Unit::TestCase
+class TestWebApp < Test::Unit::TestCase
   def setup
     @app = WebApp.new
   end
