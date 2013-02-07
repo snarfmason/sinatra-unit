@@ -42,8 +42,8 @@ module Sinatra
       if route_holder.routes.has_key? method
         routes = route_holder.routes[method]
         routes.each do |pattern, keys, conditions, block|
-          process_route(pattern, keys, conditions) do
-            return instance_eval(&block)
+          process_route(pattern, keys, conditions) do |*args|
+            return block[*args]
           end
         end
       end
