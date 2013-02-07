@@ -12,10 +12,13 @@ module Sinatra
         super message
       end
     end
+
+    class SessionsDisabledError < StandardError ; end
   end
 
   class Base
     def setup_test_session
+      raise Sinatra::Unit::SessionsDisabledError unless self.class.sessions?
       @request = OpenStruct.new :session => {} if request.nil?
     end
 
