@@ -15,10 +15,6 @@ module Sinatra
     end
 
     # test_request comes mostly from the guts of route! in Sinatra::Base
-    # I left out something about superclass routes, but in general I'm pretty
-    # confident in the route matching since I'm using Sinatra's own
-    # prcoess_route method for the lookup.
-    # This is only tested in Sinatra 1.2.8 so far.
     def test_request(method, path, params={})
       @params = indifferent_params(params)
 
