@@ -19,7 +19,8 @@ module Sinatra
   class Base
     def setup_test_session
       raise Sinatra::Unit::SessionsDisabledError unless self.class.sessions?
-      @request = OpenStruct.new :session => {} if request.nil?
+      @request ||= OpenStruct.new
+      @request.session ||= {}
     end
 
     # normal session method just returns request.session
