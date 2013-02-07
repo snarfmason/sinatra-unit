@@ -54,9 +54,9 @@ class TestWebApp < Test::Unit::TestCase
     assert_equal 'env[test] hello', response
   end
 
-  def test_works_with_session
+  def test_session_show
     @app.session = { :test => 'hello' }
-    response = @app.test_post '/showsession'
+    response = @app.test_get '/showsession'
     assert_equal 'session[test] hello', response
   end
 

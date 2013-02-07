@@ -7,7 +7,7 @@ class WebApp < WebParent
     "env[test] #{env[:test]}"
   end
 
-  post '/showsession' do
+  get '/showsession' do
     "session[test] #{session[:test]}"
   end
 
