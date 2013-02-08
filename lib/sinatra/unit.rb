@@ -17,8 +17,19 @@ module Sinatra
   end
 
   class Base
+    def check_sessions_enabled
+      return if self.class.sessions?
+
+      used_middleware = self.class.instance_variable_get "@middleware"
+      used_middleware.each do |middleware|
+        return if middleware.first == Rack::Session::Cookie
+      end
+
+      raise Sinatra::Unit::SessionsDisabledError
+    end
+
     def setup_test_session
-      raise Sinatra::Unit::SessionsDisabledError unless self.class.sessions?
+      check_sessions_enabled
       @request ||= OpenStruct.new
       @request.session ||= {}
     end
