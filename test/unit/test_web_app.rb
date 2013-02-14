@@ -82,4 +82,9 @@ class TestWebApp < Test::Unit::TestCase
     response = @app.test_get '/showobject'
     assert_nil @app.variables("__protected_ivars")
   end
+
+  def test_redirect_to_index
+    @app.test_get '/redirect'
+    assert @app.redirect?
+  end
 end

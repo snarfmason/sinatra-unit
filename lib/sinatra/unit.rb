@@ -70,7 +70,7 @@ module Sinatra
         routes = route_holder.routes[method]
         routes.each do |pattern, keys, conditions, block|
           process_route(pattern, keys, conditions) do |*args|
-            return block[*args]
+            return catch(:halt) { block[*args] }
           end
         end
       end
@@ -96,6 +96,7 @@ module Sinatra
     def self.new
       app = new!
       app.env ||= {}
+      app.response = Sinatra::Response.new
       app
     end
 

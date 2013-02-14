@@ -20,4 +20,8 @@ class WebApp < WebParent
     "foo=#{@object.foo}&bar=#{@object.bar}&baz=#{@object.baz}"
   end
 
+  get '/redirect' do
+    redirect '/'
+  end
+
 end
