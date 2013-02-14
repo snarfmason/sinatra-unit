@@ -17,41 +17,36 @@ module Sinatra
   end
 
   class Base
-    def check_sessions_enabled
-      return if self.class.sessions?
+    def test_sessions_enabled?
+      return true if self.class.sessions?
 
       used_middleware = self.class.instance_variable_get "@middleware"
       used_middleware.each do |middleware|
-        return if middleware.first == Rack::Session::Cookie
+        return true if middleware.first == Rack::Session::Cookie
       end
 
-      raise Sinatra::Unit::SessionsDisabledError
+      return false
     end
 
-    def setup_test_session
-      check_sessions_enabled
-      @request ||= OpenStruct.new
-      @request.session ||= {}
-    end
-
-    # normal session method just returns request.session
+    # Normal sinatra session method just returns request.session which passes
+    # through to env['rack.session'] but I don't initialize the request object
+    # until just before the route lookkup, so I need to skip directly to env.
     def session
-      setup_test_session
-      request.session
+      raise Sinatra::Unit::SessionsDisabledError unless test_sessions_enabled?
+      env['rack.session'] ||= {}
     end
 
-    # also there is no paired session=, unlike env which is an attr
-    def session=(session_hash)
-      setup_test_session
-      @request.session = session_hash
+    # This doesn't exist in regular sinatra, but it's convenient for some tests
+    def session=(session)
+      raise Sinatra::Unit::SessionsDisabledError unless test_sessions_enabled?
+      env['rack.session'] = session
     end
 
     # test_request comes mostly from the guts of route! in Sinatra::Base
     def test_request(method, path, params={})
       @params = indifferent_params(params)
 
-      @request ||= OpenStruct.new
-      @request.route = path # sinatra 1.2.8
+      @request = Sinatra::Request.new(env)
       @request.path_info = path # sinatra 1.3.3
 
       @__protected_ivars = instance_variables + ["@__protected_ivars"]
@@ -96,7 +91,12 @@ module Sinatra
     # new! for regular instantiation. I'm just re-standardizing names
     class << self
       alias new_with_rack_wrappers new
-      alias new new!
+    end
+
+    def self.new
+      app = new!
+      app.env ||= {}
+      app
     end
 
   end
