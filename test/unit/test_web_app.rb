@@ -11,6 +11,8 @@ class TestWebApp < Test::Unit::TestCase
   def test_returns_hello_world_on_index
     response = @app.test_request(:get, '/')
     assert_equal "hello world", response
+    assert_equal 200, @app.response.status
+    assert_equal 'text/html', @app.response.header['Content-Type']
   end
 
   def test_returns_goodbye_on_bye
@@ -86,5 +88,7 @@ class TestWebApp < Test::Unit::TestCase
   def test_redirect_to_index
     @app.test_get '/redirect'
     assert @app.redirect?
+    assert_equal 302, @app.response.status
   end
+
 end
