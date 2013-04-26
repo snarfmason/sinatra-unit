@@ -10,8 +10,8 @@ class TestRackSessionsApp < Test::Unit::TestCase
 
   def test_session_show
     @app.session = { :test => 'hello' }
-    response = @app.test_get '/showsession'
-    assert_equal 'session[test] hello', response
+    response_body = @app.test_get '/showsession'
+    assert_equal 'session[test] hello', response_body
   end
 
   def test_session_set
