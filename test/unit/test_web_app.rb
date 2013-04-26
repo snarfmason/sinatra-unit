@@ -91,4 +91,15 @@ class TestWebApp < Test::Unit::TestCase
     assert_equal 302, @app.response.status
   end
 
+  def test_two_requests
+    response = @app.test_request(:get, '/')
+    assert_equal "hello world", response
+    assert_equal 200, @app.response.status
+    assert_equal 'text/html', @app.response.header['Content-Type']
+
+    @app.test_get '/redirect'
+    assert @app.redirect?
+    assert_equal 302, @app.response.status
+  end
+
 end
