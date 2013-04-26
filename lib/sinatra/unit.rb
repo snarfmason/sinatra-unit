@@ -89,15 +89,16 @@ module Sinatra
     # Sinatra makes new do a bunch of stuff with rack middleware wrappers
     # that are useful if you're actually running the app, but provides
     # new! for regular instantiation. I'm just re-standardizing names
-    class << self
-      alias new_with_rack_wrappers new
-    end
-
-    def self.new
+    def self.new_sinatra_unit
       app = new!
       app.env ||= {}
       app.response = Sinatra::Response.new
       app
+    end
+
+    class << self
+      alias new_with_rack_wrappers new
+      alias new new_sinatra_unit
     end
 
   end
