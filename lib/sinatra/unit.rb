@@ -2,7 +2,7 @@ require 'ostruct'
 
 module Sinatra
   class Unit
-    VERSION = '0.1.0'
+    VERSION = '0.1.1'
 
     class UnknownRouteError < StandardError
       attr_accessor :method, :path, :params

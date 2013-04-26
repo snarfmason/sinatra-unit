@@ -1,3 +1,8 @@
+=== 0.1.1 / 2013-04-26
+* 1 minor enhancement
+
+  * Sinatra 1.4.2 compatibilty
+
 === 0.1.0 / 2013-01-14
 
 * 1 major enhancement

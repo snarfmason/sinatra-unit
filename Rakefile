@@ -7,7 +7,7 @@ Hoe.plugin :isolate
 # Hoe.plugin :rubyforge
 
 Hoe.spec "sinatra-unit" do
-  dependency 'sinatra', '~> 1.3.3'
+  dependency 'sinatra', '~> 1.4.2'
 
   developer "Jonathan Mason", "jonathan.e.mason@gmail.com"
 
